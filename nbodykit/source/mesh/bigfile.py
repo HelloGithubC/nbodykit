@@ -42,7 +42,6 @@ class BigFileMesh(MeshSource):
         self.comm    = comm
 
         # update the meta-data
-        self.attrs.update(kwargs)
         with FileMPI(comm=self.comm, filename=path)[dataset] as ff:
             for key in ff.attrs:
                 v = ff.attrs[key]
@@ -65,6 +64,7 @@ class BigFileMesh(MeshSource):
                 else:
                     dtype = 'f4'
 
+        self.attrs.update(kwargs)
         # determine Nmesh
         if 'ndarray.shape' not in self.attrs:
             raise ValueError("`ndarray.shape` should be stored in the Bigfile `attrs` to determine `Nmesh`")
